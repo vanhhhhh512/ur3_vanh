@@ -1,0 +1,15 @@
+# Cau hinh ca nhan hoa bai thuc hanh 02.
+# P = hai chu so cuoi MSSV mod 6  ->  19 mod 6 = 1
+# P = 1  ->  Zone A = Red, Zone B = Blue, Zone C = Yellow
+student_name: "Do Viet Anh"
+student_id: "23020719"
+
+# Bang quy uoc cua de bai, giu nguyen ca 6 truong hop de chuong trinh tu tra
+# cuu theo P thay vi viet cung ket qua cua rieng mot sinh vien.
+phan_cong_theo_p:
+  0: {zone_a: red_cube, zone_b: yellow_cube, zone_c: blue_cube}
+  1: {zone_a: red_cube, zone_b: blue_cube,   zone_c: yellow_cube}
+  2: {zone_a: yellow_cube, zone_b: red_cube,   zone_c: blue_cube}
+  3: {zone_a: yellow_cube, zone_b: blue_cube,  zone_c: red_cube}
+  4: {zone_a: blue_cube,   zone_b: red_cube,   zone_c: yellow_cube}
+  5: {zone_a: blue_cube,   zone_b: yellow_cube, zone_c: red_cube}

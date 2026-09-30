@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="$(arg name)">
+  <!-- SRDF goc cua UR (nhom ur_manipulator, ma tran va cham) + cac cap link
+       cua tay kep khong bao gio va cham voi nhau. -->
+  <xacro:arg name="name" default="ur"/>
+  <xacro:arg name="prefix" default=""/>
+
+  <xacro:include filename="$(find ur_moveit_config)/srdf/ur_macro.srdf.xacro"/>
+  <xacro:ur_srdf name="$(arg name)" prefix="$(arg prefix)"/>
+
+  <disable_collisions link1="$(arg prefix)wrist_3_link" link2="tay_kep_than" reason="Adjacent"/>
+  <disable_collisions link1="$(arg prefix)wrist_3_link" link2="ngon_trai" reason="Never"/>
+  <disable_collisions link1="$(arg prefix)wrist_3_link" link2="ngon_phai" reason="Never"/>
+  <disable_collisions link1="tay_kep_than" link2="ngon_trai" reason="Adjacent"/>
+  <disable_collisions link1="tay_kep_than" link2="ngon_phai" reason="Adjacent"/>
+  <disable_collisions link1="ngon_trai" link2="ngon_phai" reason="Never"/>
+</robot>

@@ -1,0 +1,11 @@
+build/
+install/
+log/
+__pycache__/
+*.pyc
+.venv/
+.env
+.vscode/
+.idea/
+
+bao_cao/

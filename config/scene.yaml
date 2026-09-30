@@ -1,0 +1,48 @@
+# Mo ta workcell. Moi toa do tinh trong he base_link cua robot, don vi met.
+# Robot dat tren san (base_link o z = 0), ban thao tac cao 0.15 m dat phia truoc.
+# CAC SO O DAY PHAI KHOP VOI worlds/ur3_workcell.sdf.
+
+khung_quy_chieu: base_link
+link_cong_tac: tool0
+
+ban_thao_tac:
+  # Trong MoveIt chi mo ta mat ban bang mot tam mong, khong dung nguyen khoi
+  # ban: khoi day cao 0.15 m se trum len ca de robot (de nam o x = 0, cao
+  # 0.15 m) va lam moi tu the deu bi coi la va cham.
+  tam: [0.44, 0.0, 0.145]
+  kich_thuoc: [0.48, 0.70, 0.012]
+  cao_mat_ban: 0.15
+
+vat_the:
+  canh: 0.045
+  vi_tri_ban_dau:
+    red_cube:    [0.40, -0.15, 0.1725]
+    yellow_cube: [0.40, 0.0, 0.1725]
+    blue_cube:   [0.40, 0.15, 0.1725]
+
+vung_dat:
+  canh: 0.10
+  tam:
+    zone_a: [0.30, -0.15, 0.15]
+    zone_b: [0.30, 0.0, 0.15]
+    zone_c: [0.30, 0.15, 0.15]
+
+chuyen_dong:
+  # Huong tool0 khi gap: truc z cua tool chia thang xuong mat ban.
+  quaternion_gap: [0.0, 1.0, 0.0, 0.0]     # (x, y, z, w)
+  # Diem kep (tay_kep_tcp, giua hai ngon) nam duoi tool0 60 mm.
+  dai_tcp: 0.060
+  cao_tiep_can: 0.08        # tay kep treo tren vat/vung truoc khi ha xuong
+  cao_di_chuyen: 0.08       # mang vat di ngang o cung do cao, khong them buoc
+  khe_ho_gap: 0.003         # tam kep cao hon tam khoi mot chut, ngon khong cham ban
+  buoc_cartesian: 0.005
+  ty_le_cartesian_toi_thieu: 0.85
+  # Di chuyen tu do (trong khong gian khop) va doan ha/nang thang dung
+  he_so_van_toc: 0.5
+  he_so_gia_toc: 0.5
+  he_so_van_toc_thang: 0.25
+  he_so_gia_toc_thang: 0.25
+  tu_the_home: [0.0, -1.5708, 1.2217, -1.2217, -1.5708, 0.0]
+  # Tu the trung chuyen: tay may vuon len cao giua ban, dung lam buoc dem khi
+  # khong lap duoc ke hoach di thang tu diem nay sang diem kia.
+  tu_the_trung_chuyen: [0.0, -1.5708, 1.2217, -1.2217, -1.5708, 0.0]

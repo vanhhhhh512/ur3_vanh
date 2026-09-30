@@ -1,0 +1,13 @@
+# Ket noi toi LLM thong qua 9Router.
+# 9Router mo mot endpoint tuong thich OpenAI Chat Completions tai cong 20128,
+# nho vay code chi dung SDK openai ma khong phu thuoc vao nha cung cap nao.
+# Khoa va ten model doc tu bien moi truong, khong bao gio ghi vao repo.
+bien_base_url: NINEROUTER_BASE_URL
+bien_api_key: NINEROUTER_API_KEY
+bien_model: NINEROUTER_MODEL
+
+base_url_mac_dinh: "http://127.0.0.1:20128/v1"
+model_mac_dinh: "oc/muse-spark-1.3-contributor-free"
+timeout_giay: 45.0
+nhiet_do: 0.0
+so_lan_thu_lai: 2

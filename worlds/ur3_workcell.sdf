@@ -1,0 +1,159 @@
+<?xml version="1.0" ?>
+<!-- Workcell bai thuc hanh 02: UR3e + ban thao tac + 3 vat the + 3 vung dat.
+     Toa do trong file nay trung voi he base_link cua robot vi robot duoc
+     spawn tai goc san. Moi so o day phai khop voi config/scene.yaml. -->
+<sdf version="1.9">
+  <world name="ur3_workcell">
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size><real_time_factor>1.0</real_time_factor>
+    </physics>
+    <plugin filename="ignition-gazebo-physics-system" name="ignition::gazebo::systems::Physics"/>
+    <plugin filename="ignition-gazebo-user-commands-system" name="ignition::gazebo::systems::UserCommands"/>
+    <plugin filename="ignition-gazebo-scene-broadcaster-system" name="ignition::gazebo::systems::SceneBroadcaster"/>
+    <plugin filename="ignition-gazebo-sensors-system" name="ignition::gazebo::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.9 0.9 0.9 1</diffuse><specular>0.25 0.25 0.25 1</specular>
+      <direction>-0.4 0.3 -0.9</direction>
+    </light>
+
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision"><geometry><plane><normal>0 0 1</normal><size>20 20</size></plane></geometry></collision>
+        <visual name="visual"><geometry><plane><normal>0 0 1</normal><size>20 20</size></plane></geometry>
+          <material><ambient>0.45 0.47 0.5 1</ambient><diffuse>0.45 0.47 0.5 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Ban thao tac: mat tren o z = 0.15 m, nam truoc robot -->
+    <model name="work_table">
+      <pose>0.44 0 0.075 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.48 0.70 0.15</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.48 0.70 0.15</size></box></geometry>
+          <material><ambient>0.72 0.60 0.42 1</ambient><diffuse>0.72 0.60 0.42 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="zone_a">
+      <pose>0.30 -0.15 0.1515 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="visual"><geometry><box><size>0.10 0.10 0.003</size></box></geometry>
+          <material><ambient>0.9 0.25 0.25 0.9</ambient><diffuse>0.9 0.25 0.25 0.9</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="zone_b">
+      <pose>0.30 0.0 0.1515 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="visual"><geometry><box><size>0.10 0.10 0.003</size></box></geometry>
+          <material><ambient>0.25 0.35 0.9 0.9</ambient><diffuse>0.25 0.35 0.9 0.9</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="zone_c">
+      <pose>0.30 0.15 0.1515 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <visual name="visual"><geometry><box><size>0.10 0.10 0.003</size></box></geometry>
+          <material><ambient>0.95 0.85 0.25 0.9</ambient><diffuse>0.95 0.85 0.25 0.9</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="red_cube">
+      <pose>0.40 -0.15 0.1725 0 0 0</pose>
+      <static>false</static>
+      <link name="link">
+        <!-- Tat trong luc: vi tri khoi do chuong trinh dong bo theo diem kep o
+             40 Hz. Neu de trong luc, giua hai lan dong bo khoi roi vai mm roi
+             bi giat nguoc len, nhin nhu no rung len rung xuong.
+             Khong dung <static>true</static> vi vat tinh co khoi luong vo han,
+             cham vao tay may la chan cung khien controller bao loi bam. -->
+        <gravity>false</gravity>
+        <inertial><mass>0.05</mass>
+          <inertia><ixx>1.7e-5</ixx><iyy>1.7e-5</iyy><izz>1.7e-5</izz>
+                   <ixy>0</ixy><ixz>0</ixz><iyz>0</iyz></inertia>
+        </inertial>
+        <collision name="collision"><geometry><box><size>0.045 0.045 0.045</size></box></geometry>
+          <!-- collide_bitmask 0: khoi khong va cham vat ly voi gi ca. Vi tri
+               khoi do chuong trinh dat (bam theo diem kep luc dang kep), nen
+               khong can va cham; neu de, ngon kep chi lech mot nhip dong bo
+               la day khoi, ngon bi chan va quy dao tay may bi huy. -->
+          <surface><contact><collide_bitmask>0x00</collide_bitmask></contact>
+            <friction><ode><mu>1.2</mu><mu2>1.2</mu2></ode></friction></surface>
+        </collision>
+        <visual name="visual"><geometry><box><size>0.045 0.045 0.045</size></box></geometry>
+          <material><ambient>0.85 0.1 0.1 1</ambient><diffuse>0.85 0.1 0.1 1</diffuse>
+                    <specular>0.2 0.2 0.2 1</specular></material>
+        </visual>
+      </link>
+    </model>
+    <model name="yellow_cube">
+      <pose>0.40 0.0 0.1725 0 0 0</pose>
+      <static>false</static>
+      <link name="link">
+        <!-- Tat trong luc: vi tri khoi do chuong trinh dong bo theo diem kep o
+             40 Hz. Neu de trong luc, giua hai lan dong bo khoi roi vai mm roi
+             bi giat nguoc len, nhin nhu no rung len rung xuong.
+             Khong dung <static>true</static> vi vat tinh co khoi luong vo han,
+             cham vao tay may la chan cung khien controller bao loi bam. -->
+        <gravity>false</gravity>
+        <inertial><mass>0.05</mass>
+          <inertia><ixx>1.7e-5</ixx><iyy>1.7e-5</iyy><izz>1.7e-5</izz>
+                   <ixy>0</ixy><ixz>0</ixz><iyz>0</iyz></inertia>
+        </inertial>
+        <collision name="collision"><geometry><box><size>0.045 0.045 0.045</size></box></geometry>
+          <!-- collide_bitmask 0: khoi khong va cham vat ly voi gi ca. Vi tri
+               khoi do chuong trinh dat (bam theo diem kep luc dang kep), nen
+               khong can va cham; neu de, ngon kep chi lech mot nhip dong bo
+               la day khoi, ngon bi chan va quy dao tay may bi huy. -->
+          <surface><contact><collide_bitmask>0x00</collide_bitmask></contact>
+            <friction><ode><mu>1.2</mu><mu2>1.2</mu2></ode></friction></surface>
+        </collision>
+        <visual name="visual"><geometry><box><size>0.045 0.045 0.045</size></box></geometry>
+          <material><ambient>0.95 0.8 0.05 1</ambient><diffuse>0.95 0.8 0.05 1</diffuse>
+                    <specular>0.2 0.2 0.2 1</specular></material>
+        </visual>
+      </link>
+    </model>
+    <model name="blue_cube">
+      <pose>0.40 0.15 0.1725 0 0 0</pose>
+      <static>false</static>
+      <link name="link">
+        <!-- Tat trong luc: vi tri khoi do chuong trinh dong bo theo diem kep o
+             40 Hz. Neu de trong luc, giua hai lan dong bo khoi roi vai mm roi
+             bi giat nguoc len, nhin nhu no rung len rung xuong.
+             Khong dung <static>true</static> vi vat tinh co khoi luong vo han,
+             cham vao tay may la chan cung khien controller bao loi bam. -->
+        <gravity>false</gravity>
+        <inertial><mass>0.05</mass>
+          <inertia><ixx>1.7e-5</ixx><iyy>1.7e-5</iyy><izz>1.7e-5</izz>
+                   <ixy>0</ixy><ixz>0</ixz><iyz>0</iyz></inertia>
+        </inertial>
+        <collision name="collision"><geometry><box><size>0.045 0.045 0.045</size></box></geometry>
+          <!-- collide_bitmask 0: khoi khong va cham vat ly voi gi ca. Vi tri
+               khoi do chuong trinh dat (bam theo diem kep luc dang kep), nen
+               khong can va cham; neu de, ngon kep chi lech mot nhip dong bo
+               la day khoi, ngon bi chan va quy dao tay may bi huy. -->
+          <surface><contact><collide_bitmask>0x00</collide_bitmask></contact>
+            <friction><ode><mu>1.2</mu><mu2>1.2</mu2></ode></friction></surface>
+        </collision>
+        <visual name="visual"><geometry><box><size>0.045 0.045 0.045</size></box></geometry>
+          <material><ambient>0.1 0.25 0.85 1</ambient><diffuse>0.1 0.25 0.85 1</diffuse>
+                    <specular>0.2 0.2 0.2 1</specular></material>
+        </visual>
+      </link>
+    </model>
+  </world>
+</sdf>

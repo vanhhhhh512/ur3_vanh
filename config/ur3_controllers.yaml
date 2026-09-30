@@ -1,0 +1,138 @@
+# Cau hinh controller rieng cho bai thuc hanh 02.
+# Giu nguyen cua ur_simulation_gz, chi noi long nguong bam quy dao va
+# goal_time: trong Gazebo khop bam cham hon robot that nen nguong 0.2 rad
+# mac dinh khien joint_trajectory_controller huy quy dao giua chung
+# (PATH_TOLERANCE_VIOLATED) du ke hoach cua MoveIt hoan toan hop le.
+
+controller_manager:
+  ros__parameters:
+    update_rate: 500  # Hz
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    io_and_status_controller:
+      type: ur_controllers/GPIOController
+
+    speed_scaling_state_broadcaster:
+      type: ur_controllers/SpeedScalingStateBroadcaster
+
+    joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    scaled_joint_trajectory_controller:
+      type: ur_controllers/ScaledJointTrajectoryController
+
+    forward_velocity_controller:
+      type: velocity_controllers/JointGroupVelocityController
+
+    forward_position_controller:
+      type: position_controllers/JointGroupPositionController
+
+    tay_kep_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+
+speed_scaling_state_broadcaster:
+  ros__parameters:
+    state_publish_rate: 100.0
+
+joint_trajectory_controller:
+  ros__parameters:
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.5
+      goal_time: 2.0
+      shoulder_pan_joint: { trajectory: 0.6, goal: 0.12 }
+      shoulder_lift_joint: { trajectory: 0.6, goal: 0.12 }
+      elbow_joint: { trajectory: 0.6, goal: 0.12 }
+      wrist_1_joint: { trajectory: 0.6, goal: 0.12 }
+      wrist_2_joint: { trajectory: 0.6, goal: 0.12 }
+      wrist_3_joint: { trajectory: 0.6, goal: 0.12 }
+
+
+scaled_joint_trajectory_controller:
+  ros__parameters:
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    speed_scaling_interface_name: ""
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.5
+      goal_time: 2.0
+      shoulder_pan_joint: { trajectory: 0.6, goal: 0.12 }
+      shoulder_lift_joint: { trajectory: 0.6, goal: 0.12 }
+      elbow_joint: { trajectory: 0.6, goal: 0.12 }
+      wrist_1_joint: { trajectory: 0.6, goal: 0.12 }
+      wrist_2_joint: { trajectory: 0.6, goal: 0.12 }
+      wrist_3_joint: { trajectory: 0.6, goal: 0.12 }
+
+forward_velocity_controller:
+  ros__parameters:
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+    interface_name: velocity
+
+forward_position_controller:
+  ros__parameters:
+    joints:
+      - shoulder_pan_joint
+      - shoulder_lift_joint
+      - elbow_joint
+      - wrist_1_joint
+      - wrist_2_joint
+      - wrist_3_joint
+
+
+# Hai ngon cua tay kep chay chung mot controller quy dao rieng, tach khoi tay
+# may: MoveIt chi lap ke hoach cho ur_manipulator, con dong/mo kep do
+# ky_nang_robot gui thang toi controller nay.
+tay_kep_controller:
+  ros__parameters:
+    joints:
+      - khop_ngon_trai
+      - khop_ngon_phai
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.02
+      goal_time: 1.0
+      khop_ngon_trai: { trajectory: 0.02, goal: 0.002 }
+      khop_ngon_phai: { trajectory: 0.02, goal: 0.002 }
